@@ -1,0 +1,190 @@
+#include <iostream>
+#include <cmath>
+#include <stdlib.h>
+#include <time.h>
+
+using namespace std;
+
+//#define int tablero[6][6];
+const string SEPARADOR = "  ";
+
+
+
+
+void creaTablero(int **tablero, int filas, int columnas){
+    for(int f=0; f<filas; f++){
+        for(int c=0; c<columnas; c++){
+            cout << tablero[f][c] << SEPARADOR;
+        }
+        cout << endl;
+    }
+}
+
+
+void imprimeTablero(int **tablero, int filas, int columnas){
+    for(int f=0; f<filas; f++){
+        for(int c=0; c<columnas; c++){
+            cout << tablero[f][c] << SEPARADOR;
+        }
+        cout << endl;
+    }
+}
+/*****************************************************
+    Función encargada de liberar la memoria dinámica
+    asignada al tablero
+******************************************************/
+
+void liberarMemoria(int **tablero, int filas){
+    for(int f=0; f< filas; f++){
+        delete tablero[f];
+        tablero[f]=nullptr;
+    }
+    delete tablero;
+    tablero = nullptr;
+}
+
+void cositas(string nombres[], string colores[]){
+    char color1,color2;
+
+    cout<<endl<<"BIENVENIDO AL JUEGO '4 EN RAYA'"<<endl<<endl;
+    cout<<"Consigue 4 fichas consecutivas (horizontal, vertical, diagonal) antes que el otro jugador para ganar."<<endl;
+    cout<<"Nombre Jugador1: ";
+    cin>> nombres[0];
+    cout<<"Color de "<<nombres[0]<<" [a/r/v]: ";
+    cin>>color1;
+
+    if(color1 == 'r')
+        colores[0] = "rojo";
+    
+    else if(color1 == 'a')
+        colores[0] = "azul";
+    
+    else
+        colores[0] = "verde";
+
+
+    cout<<endl<<endl<<"Nombre Jugador2: ";
+    cin>>nombres[1];
+    cout<<"Color de "<<nombres[1]<<" [a/r/v]: ";
+    cin>>colores[1];
+
+    if(color2 == 'r')
+        colores[1] = "rojo";
+    
+    else if(color2 == 'a')
+        colores[1] = "azul";
+    
+    else
+    colores[1] = "verde";
+}
+
+bool comprueba_win1(){
+    int x = 0;
+
+    if(x == 0){
+        return true;
+    }
+
+    else{
+        return false;
+    }
+}
+
+bool comprueba_win2(){
+    int x = 0;
+
+    if(x==0){
+        return false;
+    }
+
+    else{
+        return true;
+    }
+}
+
+void coloca_ficha(int **tablero,int columna, int num){         //también tiene que recibir el número que debe almacenar (1 o 2)
+
+    int fila;
+
+    for(fila = 5 ;fila >= 0 ; fila--){
+        if(tablero[fila][columna] == 0){
+
+            tablero[fila][columna] = num;
+            break;
+        }
+
+        else{
+            continue;
+        }
+    }
+
+
+
+    /*for(fila = 0 ;fila <=5 ; fila++){
+        for(caca = 0 ;caca <= 5 ;caca++){
+            cout<<tablero[fila][caca]<<endl<<endl;
+        }
+    }*/
+
+
+
+    
+}
+
+/*void juego_4enraya(string nombres[]){
+    
+
+    
+}*/
+
+int main(){
+    int filas = 6;
+    int columnas = 6;
+
+    int** tablero = new int*[filas];    // Reserva dinámica de memoria un vector de punteros a int
+    for (int f = 0; f< filas; f++)      // Bucle para reservar memoria para cada fila de la matriz
+        tablero[f] = new int[columnas]; // Reserva dinámica de memoria un vector de enteros (fila)
+
+
+    int col_ficha,fil_ficha,ficha;
+
+    bool win;
+
+    string nombres[2];
+    string colores[2];
+    
+    imprimeTablero(tablero, filas, columnas);
+
+    /* Salida. Se han de liberar los recursos generados dinámicamente*/
+    //liberarMemoria(tablero,filas);
+
+
+    cositas(nombres,colores); 
+
+    win = false;
+    while(win == false){
+
+        cout<<nombres[0]<<", donde quieres poner tu ficha? [0-5]: ";
+        cin>>col_ficha;
+        ficha = 1;
+
+        if(col_ficha == 7){
+            return 0;
+        }
+
+        coloca_ficha(tablero,col_ficha,ficha);
+        imprimeTablero(tablero, filas, columnas);
+
+
+        cout<<nombres[1]<<", donde quieres poner tu ficha? [0-5]: ";
+        cin>>col_ficha;
+        ficha = 2;
+        coloca_ficha(tablero,col_ficha,ficha);
+        imprimeTablero(tablero, filas, columnas);
+
+        if(col_ficha == 7){
+            return 0;
+        }
+
+    }
+}
